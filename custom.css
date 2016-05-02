@@ -17,6 +17,7 @@ body {
 .tile {
   background-image: url(http://cdn2.justdogbreeds.com/justdogbreeds-cdn/photos/plog-content/thumbs/dog-breeds/golden-retriever/large/2955-golden-retriever-75.jpg);
   display:inline-block;
+  margin-top: -4px;
 }
 
 .clearfix:after {
