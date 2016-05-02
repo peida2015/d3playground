@@ -1,0 +1,33 @@
+body {
+  height: 100%;
+}
+
+.row {
+  width:inherit;
+}
+.image {
+  margin: auto;
+  width: 100%;
+}
+
+.hidden{
+  display: none;
+}
+
+.tile {
+  background-image: url(http://cdn2.justdogbreeds.com/justdogbreeds-cdn/photos/plog-content/thumbs/dog-breeds/golden-retriever/large/2955-golden-retriever-75.jpg);
+  display:inline-block;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
