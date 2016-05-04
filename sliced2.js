@@ -44,7 +44,7 @@
           this.style.top = parseInt(this.style.top)+ d3.event.dy +"px";
         }
       });
-      // debugger
+      debugger
 
       function scrambleTiles (tiles) {
         tiles.remove();
@@ -55,6 +55,18 @@
         });
       }
       scrambleTiles(tile);
+      debugger
+
+      function unscrambleTiles () {
+        tile[0].sort(function (a,b) {
+          return a.__data__.id > b.__data__.id
+        }).forEach(function (el) {
+          return d3.select(".image").append(function () {
+            return el;
+          });
+        })
+      }
+      unscrambleTiles();
     }
   }
 })();
