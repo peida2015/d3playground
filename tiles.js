@@ -14,6 +14,7 @@
           return el;
         });
       });
+      this.returnToShape();
     },
 
     unscrambleTiles: function () {
@@ -24,6 +25,11 @@
           return el;
         });
       })
+      this.returnToShape();
     },
+
+    returnToShape: function () {
+      this.tiles.style({ top: "", left: ""})
+    }
   }
 })();
