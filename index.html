@@ -5,6 +5,7 @@
     <title>D3 Playground</title>
     <link rel="stylesheet" type="text/css" href="./custom.css" />
     <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="./tiles.js"></script>
     <script type="text/javascript" src="./sliced2.js"></script>
   </head>
   <body>
@@ -12,8 +13,9 @@
     <img src="http://cdn2.justdogbreeds.com/justdogbreeds-cdn/photos/plog-content/thumbs/dog-breeds/golden-retriever/large/2955-golden-retriever-75.jpg" class="hidden" alt="" />
 
     <div class="image">
-
     </div>
 
+    <button class="button toggle" onclick="_tiles.tiles.scrambleTiles()">Scramble</button>
+    <button class="button toggle" onclick="_tiles.tiles.unscrambleTiles()">Unscramble</button>
   </body>
 </html>

@@ -11,11 +11,12 @@
       var width = image.width, height = image.height;
 
       var tileWidth = Math.floor(width/10);
+      var tileWidth = Math.floor(width/10);
       var tileHeight = Math.floor(height/10);
 
-      d3.select(".image").style({width: width+"px"});
+      d3.select(".image").style({width: 14+width+"px"});
 
-      var tile = d3.select(".image").selectAll(".tile")
+      var tiles = d3.select(".image").selectAll(".tile")
         .data(d3.range(100).map(function (d) {
           return { row: Math.floor(d/10), col: d%10, id: d }; }))
         .enter().append("div").classed("tile", true)
@@ -24,12 +25,14 @@
               return this.style.backgroundPosition = -d.col*tileWidth+"px "+-d.row*tileHeight+"px";
           }});
 
+
       var drag = d3.behavior.drag().origin(function (d) {
         return {x: this.offsetLeft, y:this.offsetTop };
       });
 
-      tile.call(drag);
-      tile.style({ position: "relative" });
+
+      tiles.call(drag);
+      tiles.style({ position: "relative" });
       drag.on("drag", function (d) {
 
         if (this.style.left === "") {
@@ -44,28 +47,13 @@
           this.style.top = parseInt(this.style.top)+ d3.event.dy +"px";
         }
       });
-      // debugger
 
-      function scrambleTiles () {
-        d3.shuffle(tile[0]).forEach(function (el) {
-          return d3.select(".image").append(function () {
-            return el;
-          });
-        });
-      }
-      scrambleTiles();
-      debugger
+      tiles = new _tiles.Tiles(tiles);
 
-      function unscrambleTiles () {
-        tile[0].sort(function (a,b) {
-          return a.__data__.id > b.__data__.id
-        }).forEach(function (el) {
-          return d3.select(".image").append(function () {
-            return el;
-          });
-        })
-      }
-      unscrambleTiles();
+      _tiles.tiles = tiles;
+      tiles.scrambleTiles();
+
     }
   }
+
 })();
