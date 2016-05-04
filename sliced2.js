@@ -44,17 +44,16 @@
           this.style.top = parseInt(this.style.top)+ d3.event.dy +"px";
         }
       });
-      debugger
+      // debugger
 
-      function scrambleTiles (tiles) {
-        tiles.remove();
-        d3.shuffle(tiles[0]).forEach(function (el) {
+      function scrambleTiles () {
+        d3.shuffle(tile[0]).forEach(function (el) {
           return d3.select(".image").append(function () {
             return el;
           });
         });
       }
-      scrambleTiles(tile);
+      scrambleTiles();
       debugger
 
       function unscrambleTiles () {
