@@ -14,11 +14,6 @@
       var tileHeight = Math.floor(height/10);
 
       d3.select(".image").style({width: width+"px"});
-      // var row = d3.select('.image')
-      // .selectAll(".row")
-      // .data(d3.range(10).map(function (d) {return d; }))
-      // .enter().append("div").classed("row", true)
-      // .style({ height: tileHeight+"px" } );
 
       var tile = d3.select(".image").selectAll(".tile")
         .data(d3.range(100).map(function (d) {
@@ -26,13 +21,13 @@
         .enter().append("div").classed("tile", true)
         .style({ height: tileHeight+"px", width: tileWidth+"px",
             backgroundPosition: function (d) {
-              // debugger
               return this.style.backgroundPosition = -d.col*tileWidth+"px "+-d.row*tileHeight+"px";
           }});
 
       var drag = d3.behavior.drag().origin(function (d) {
         return {x: this.offsetLeft, y:this.offsetTop };
       });
+
       tile.call(drag);
       tile.style({ position: "relative" });
       drag.on("drag", function (d) {
@@ -50,6 +45,16 @@
         }
       });
       // debugger
+
+      function scrambleTiles (tiles) {
+        tiles.remove();
+        d3.shuffle(tiles[0]).forEach(function (el) {
+          return d3.select(".image").append(function () {
+            return el;
+          });
+        });
+      }
+      scrambleTiles(tile);
     }
   }
 })();
