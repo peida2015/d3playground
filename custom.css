@@ -1,5 +1,5 @@
 body {
-  height: 100%;
+  /*height: 100%;*/
 }
 
 .row {
@@ -7,7 +7,10 @@ body {
 }
 .image {
   margin: auto;
-  width: 100%;
+}
+.center-block {
+  margin: auto;
+  /*width: -moz-fit-content; fit-content;*/
 }
 
 .hidden{
@@ -17,8 +20,17 @@ body {
 .tile {
   background-image: url(http://cdn2.justdogbreeds.com/justdogbreeds-cdn/photos/plog-content/thumbs/dog-breeds/golden-retriever/large/2955-golden-retriever-75.jpg);
   display:inline-block;
-  margin-top: -4px;
-  border: 1px solid white
+  margin-top: -4px; /* Fix spacing issue between tiles*/
+  border: 1px solid white;
+  z-index: 0;
+}
+
+.tile.dragging {
+  z-index: 2;
+}
+
+.tile.just-dropped {
+  z-index: 1;
 }
 
 .clearfix:after {

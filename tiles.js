@@ -14,7 +14,6 @@
           return el;
         });
       });
-      this.returnToShape();
     },
 
     unscrambleTiles: function () {
@@ -29,7 +28,11 @@
     },
 
     returnToShape: function () {
-      this.tiles.style({ top: "", left: ""})
+      this.tiles.style({ top: "", left: ""});
+    },
+
+    removeBorder: function () {
+      this.tiles.style({ border: "0px" });
     }
   }
 })();

@@ -10,15 +10,15 @@
       image.src = imageSource;
       var width = image.width, height = image.height;
 
-      var tileWidth = Math.floor(width/10);
-      var tileWidth = Math.floor(width/10);
-      var tileHeight = Math.floor(height/10);
+      var tileWidth = Math.floor(width/4);
+      var tileWidth = Math.floor(width/4);
+      var tileHeight = Math.floor(height/4);
 
       d3.select(".image").style({width: 14+width+"px"});
 
       var tiles = d3.select(".image").selectAll(".tile")
-        .data(d3.range(100).map(function (d) {
-          return { row: Math.floor(d/10), col: d%10, id: d }; }))
+        .data(d3.range(16).map(function (d) {
+          return { row: Math.floor(d/4), col: d%4, id: d }; }))
         .enter().append("div").classed("tile", true)
         .style({ height: tileHeight+"px", width: tileWidth+"px",
             backgroundPosition: function (d) {
@@ -26,9 +26,7 @@
           }});
 
 
-      var drag = d3.behavior.drag().origin(function (d) {
-        return {x: this.offsetLeft, y:this.offsetTop };
-      });
+      var drag = d3.behavior.drag();
 
 
       tiles.call(drag);
@@ -46,6 +44,25 @@
         } else {
           this.style.top = parseInt(this.style.top)+ d3.event.dy +"px";
         }
+      });
+
+      drag.on("dragstart", function () { return this.classList.add("dragging"); });
+      drag.on("dragend", function () {
+        var that = this;
+
+        tiles.tiles[0].forEach(function (tile) {
+          if (tile === that) return;
+
+          var tileRect = tile.getBoundingClientRect();
+          var thisRect = that.getBoundingClientRect();
+
+          // Collision-detection
+          if ((thisRect.left < tileRect.right && thisRect.right > tileRect.left) && (thisRect.top < tileRect.bottom && thisRect.bottom > tileRect.top)) {
+            tile.classList.remove("just-dropped");
+          }
+        });
+        that.classList.remove("dragging");
+        that.classList.add("just-dropped");
       });
 
       tiles = new _tiles.Tiles(tiles);
