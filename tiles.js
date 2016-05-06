@@ -28,7 +28,11 @@
     },
 
     slowlyReturnToShape: function () {
-      this.tiles.transition().style("top", 0+"px").duration(1000).transition().style("left", "0px").duration(1000);
+      this.tiles.transition().style({
+        top: 0+"px",
+        left: 0+"px"
+      })
+      .duration(3000);
     },
 
     returnToShape: function () {
