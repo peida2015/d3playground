@@ -24,7 +24,11 @@
           return el;
         });
       })
-      this.returnToShape();
+      this.slowlyReturnToShape();
+    },
+
+    slowlyReturnToShape: function () {
+      this.tiles.transition().style("top", 0+"px").duration(1000).transition().style("left", "0px").duration(1000);
     },
 
     returnToShape: function () {
