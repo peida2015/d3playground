@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>D3 Playground</title>
+    <link href='https://fonts.googleapis.com/css?family=Amaranth:700italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="./custom.css" />
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script type="text/javascript" src="./tiles.js"></script>
@@ -10,13 +11,27 @@
   </head>
   <body>
     <!-- Chrome will not load the background-image for the purpose of checking dimension by JS this <img> is force-loading it. -->
+    <h1>D3 Playground</h1>
     <img src="http://cdn2.justdogbreeds.com/justdogbreeds-cdn/photos/plog-content/thumbs/dog-breeds/golden-retriever/large/2955-golden-retriever-75.jpg" class="hidden" alt="" />
 
-    <div class="image">
+    <h2>Introduction</h2>
+    <p class="description">
+      D3.js is a data-visualization library I have recently stumbled upon.  It is open-source and does amazing interactive graphics like those you see on <a href="#">NYTimes</a> and Michael Bostock's <a href="#">showcase</a>.  This is my little D3 playground.
+    </p>
+    <h2>I. Image Scrambler</h2>
+    <p class="description">
+      This is my first project using D3.js.  It's an image sliced up into 15x15 tiles using CSS Sprite technique and made draggable using D3's drag behavior tools.  To make ordering possible for unscrambling, the tiles are joined with data that stores row and col information as well as an index as they are created.
+    </p>
+    <br>
+    <div class="container center-block">
+      <div class="image">
+      </div>
+
+      <div class="center-aligned">
+        <button class="button" onclick="_tiles.tiles.scrambleTiles()">Scramble</button>
+        <button class="button" onclick="_tiles.tiles.unscrambleTiles()">Unscramble</button>
+      </div>
     </div>
-    <div class="control center-block">
-      <button class="button" onclick="_tiles.tiles.scrambleTiles()">Scramble</button>
-      <button class="button" onclick="_tiles.tiles.unscrambleTiles()">Unscramble</button>
-    </div>
+
   </body>
 </html>

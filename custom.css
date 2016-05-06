@@ -1,16 +1,23 @@
 body {
-  /*height: 100%;*/
 }
 
-.row {
-  width:inherit;
+h1 {
+  font-family: 'Amaranth', sans-serif;
+  font-size: 4em;
+  text-align: center;
 }
+
+h2 {
+  text-indent: 5%;
+}
+
+p.description {
+  width: 80%;
+  margin: auto;
+}
+
 .image {
   margin: auto;
-}
-.center-block {
-  margin: auto;
-  /*width: -moz-fit-content; fit-content;*/
 }
 
 .hidden{
@@ -34,15 +41,27 @@ body {
   z-index: 1;
 }
 
+/*Utilities*/
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-aligned {
+  display: block;
+  text-align: center;
+}
+
 .clearfix:after {
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 
 .clearfix {
-    display: inline-block;
+  display: inline-block;
 }
