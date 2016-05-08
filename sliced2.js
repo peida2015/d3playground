@@ -10,14 +10,14 @@
       image.src = imageSource;
       var width = image.width, height = image.height;
 
-      var tileWidth = Math.floor(width/20);
-      var tileHeight = Math.floor(height/20);
+      var tileWidth = Math.floor(width/15);
+      var tileHeight = Math.floor(height/15);
 
-      d3.select(".image").style({width: 20+width+"px"});
+      d3.select(".image").style({width: 15+width+"px"});
 
       var tiles = d3.select(".image").selectAll(".tile")
-        .data(d3.range(400).map(function (d) {
-          return { row: Math.floor(d/20), col: d%20, id: d }; }))
+        .data(d3.range(225).map(function (d) {
+          return { row: Math.floor(d/15), col: d%15, id: d }; }))
         .enter().append("div").classed("tile", true)
         .style({ height: tileHeight+"px", width: tileWidth+"px",
             backgroundPosition: function (d) {
@@ -68,8 +68,8 @@
 
       _tiles.tiles = tiles;
       tiles.scrambleTiles();
-      tiles.unscrambleTiles();
-
+      // tiles.unscrambleTiles();
+      tiles.slowlyUnscramble2();
     }
   }
 
