@@ -32,26 +32,36 @@
 
     slowlyUnscramble: function () {
       var collection = this.tiles;
+
+      // Return to rectangular shape first (2s)
+      this.slowlyReturnToShape();
+
+      // Delay 2s to let slowlyReturnToShape() finish first
       collection.transition().tween("sort", function (d,i) {
-        var itpl = d3.interpolateRound(d.id-2, d.id);
+        var itpl = d3.interpolateRound(d.id-5, d.id);
         return function (t) {
-          // debugger
+
+          if (d.id === i) { return; }
+
           this.parentNode.insertBefore(this, collection.filter(function (datum2, i) {
-            return datum2.id === itpl(t)+1;
+            var val = itpl(t);
+
+            if (val === d.id) { d.inOrder = true; }
+            return datum2.id === val+1;
           }).node());
         }
-      }).duration(20000);
-
-      this.slowlyReturnToShape();
+      }).ease("elastic")
+      .delay(2000)
+      .duration(3000);
     },
 
     slowlyReturnToShape: function () {
       // if it takes 20s to slowlyUnscramble, slowlyReturnToShape needs a 20s delay
       this.tiles.transition().style({
-        top: 0+"px",
-        left: 0+"px"
-      })
-      .duration(2000)
+              top: 0+"px",
+              left: 0+"px"
+            })
+            .duration(2000)
       // .delay(20000);
     },
 
