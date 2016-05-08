@@ -51,7 +51,7 @@
         }
       }).ease("elastic")
       .delay(2000)
-      .duration(3500);
+      .duration(5000);
     },
 
     slowlyUnscramble2: function () {
@@ -74,10 +74,10 @@
             });
           }
           };
-      }).ease("elastic")
+      }).ease("linear")
       // Delay 2s to let slowlyReturnToShape() finish first
       .delay(2000)
-      .duration(2500);
+      .duration(5000);
     },
 
     linearlyUnscramble: function () {
@@ -99,10 +99,10 @@
             return datum2.id === val+1;
           }).node());
         }
-      }).ease("linears")
+      }).ease("linear")
       // Delay 2s to let slowlyReturnToShape() finish first
       .delay(2000)
-      .duration(3500);
+      .duration(5000);
     },
 
     slowlyReturnToShape: function () {
