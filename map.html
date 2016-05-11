@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      .state { fill: pink; }
+      /*.state { fill: white; }
+      .state { fill: blue; }*/
+      .state-boundary {
+        fill: none;
+        stroke: #777;
+        stroke-dasharray: 5,5;
+        stroke-linejoin: round;
+      }
+      .coast-line {
+        fill: none;
+        stroke: #777;
+        stroke-dasharray: 2,3;
+        stroke-linejoin: round;
+      }
+    </style>
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <!-- topojson.js -->
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+
+  </head>
+  <body>
+
+  </body>
+  <script type="text/javascript">
+  var width = 960, height = 1160;
+
+  var svg = d3.select("body").append("svg")
+  .attr("width", width)
+  .attr("height", height);
+
+  d3.json("usa.json", function (error, us) {
+    if (error) return console.error(error);
+    // debugger
+    // Convert topojson back to GeoJSON format for display
+    var subunits = topojson.feature(us, us.objects.states);
+    // Map Projection
+    var projection = d3.geo.albersUsa().scale(1200).translate([width/2, height/2]);
+
+    // Path generator
+    var path = d3.geo.path().projection(projection);
+
+    // Since the states are labeled below, the original shape of the country don't need to be drawn
+    // svg.append("path")
+    // .datum(subunits)
+    // .attr("d", path);
+
+    // Labeled state abbrev. in class name so they can be styled with CSS.
+    svg.selectAll('.subunit')
+      .data(subunits.features)
+      .enter().append("path")
+      .attr("class", function (d) { return "state "+d.id; })
+      .attr("d", path);
+
+    // Draw state boundaries by selecting the two features (states) a, b on two sides of the boundary are different.
+
+    svg.append("path")
+      .datum(topojson.mesh(us, us.objects.states, function (a, b) {
+        return a !== b;
+      })).attr("d", path).attr("class", "state-boundary");
+
+    // Draw coast lines by selecting the two features on the side of the boundary are the same.
+    svg.append("path")
+      .datum(topojson.mesh(us, us.objects.states, function (a, b) {
+        return a === b;
+      })).attr("d", path).attr("class", "coast-line");
+
+  });
+  </script>
+</html>
