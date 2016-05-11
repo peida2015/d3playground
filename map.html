@@ -19,6 +19,9 @@
         stroke-dasharray: 2,3;
         stroke-linejoin: round;
       }
+      .place-label {
+        font-size: 8pt;
+      }
     </style>
     <!-- d3.js -->
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -42,11 +45,10 @@
     // Convert topojson back to GeoJSON format for display
     var subunits = topojson.feature(us, us.objects.states);
     // Map Projection
-    var projection = d3.geo.albersUsa().scale(1200).translate([width/2, height/2]);
+    var projection = d3.geo.albersUsa().scale(1100).translate([width/2, height/2]);
 
     // Path generator
     var path = d3.geo.path().projection(projection);
-
     // Since the states are labeled below, the original shape of the country don't need to be drawn
     // svg.append("path")
     // .datum(subunits)
@@ -72,6 +74,35 @@
         return a === b;
       })).attr("d", path).attr("class", "coast-line");
 
+    // Set point radius to 2 for smaller dot on the map for cities
+    path.pointRadius(2);
+
+    // Label populated places with dots on the maps
+    svg.append("path")
+      .datum(topojson.feature(us, us.objects.places))
+      .attr("d", path)
+      .attr("class", "place");
+
+    // Append lables on the populated places
+    svg.selectAll(".place-label")
+      .data(topojson.feature(us, us.objects.places).features)
+      .enter().append("text")
+      .attr("class", "place-label")
+      .attr("transform", function (d) {
+      // Get it to project on the correct position on the map
+        return "translate(" + projection(d.geometry.coordinates)+")"
+      })
+      // adjust vertical position of the label
+      .attr("dy", ".35em")
+      // Get the name of the city and label
+      .text(function (d) { return d.properties.name; });
+
+    // Label cities to the right of SF (-122.41 W) right-aligned
+    svg.selectAll(".place-label")
+      .attr("x", function (d) {
+        return d.geometry.coordinates[0] > -122.41 ? 6 : -6; })
+      .attr("text-anchor", function (d) {
+        return d.geometry.coordinates[0] > -122.41 ? "start" : "end" ; });
   });
   </script>
 </html>
