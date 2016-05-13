@@ -8,7 +8,6 @@
       dates.forEach(function (state) {
         admDates[state[0]] = new Date(state[1]);
       })
-debugger
 console.log("loaded JS");
       var margins = { top:30, bottom: 20, left: 40, right: 40 }
       var width = 960;
@@ -73,12 +72,38 @@ console.log("loaded JS");
         .attr("height", 3)
 
 //  ---------------Make initial map
-
+    // Title
   svg.append("text").attr("class", "map-title")
     .text("States Admission to the Union")
     .attr("transform", function (d) {
       return "translate("+(width/2 - this.getComputedTextLength()/2 + margins.left)+","+margins.top+")";
     });
+
+    // Legends
+  var legend = svg.append('g').attr('class','legend')
+    .attr("transform", "translate("+margins.left+","+(height/2-30)+")");
+
+  legend.append("rect")
+    .attr("class", "legend unjoined")
+    .attr('width', 15)
+    .attr("height", 15)
+
+  legend.append("text").attr('class', 'legend-label')
+    .text("Not Joined")
+    .attr('x', 18)
+    .attr('y', 13);
+
+  legend.append("rect")
+    .attr("class", "legend joined")
+    .attr('width', 15)
+    .attr("height", 15)
+    .attr('y', 20);
+
+  legend.append("text").attr('class', 'legend-label')
+    .text("Joined")
+    .attr('x', 18)
+    .attr('y', 33);
+
 
   d3.json("usa.json", function (error, us) {
     if (error) return console.error(error);

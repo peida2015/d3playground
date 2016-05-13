@@ -33,6 +33,13 @@
 }
 
 /*---------------------Map CSS--------------------*/
+.legend.unjoined { fill: white; stroke: black; }
+.legend.joined { fill: pink; stroke: black;}
+.legend-label {
+  font-size: 12px;
+  font-weight: 500;
+  font-family: sans-serif;
+}
 .map-title {
   font-size: 28px;
   font-weight: 600;
@@ -42,14 +49,14 @@
 .state.joined { fill: pink; }
 .state-boundary {
   fill: none;
-  stroke: #777;
+  stroke: #000;
   stroke-dasharray: 5,5;
   stroke-linejoin: round;
 }
 .coast-line {
   fill: none;
   stroke: #777;
-  stroke-dasharray: 2,3;
+  stroke-dasharray: 8,3;
   stroke-linejoin: round;
 }
 .place-label {  font-size: 8pt; }
