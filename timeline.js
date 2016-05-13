@@ -43,7 +43,40 @@
         .attr('x', 30)
         .attr('y', -0)
         .attr('class', 'year-label');
-      // debugger
+
+      var brush = d3.svg.brush()
+        .x(timeline)
+        .extent([0, 0])
+        .on("brush", brushed);
+
+      var slider = svg.append("g")
+        .attr("class", "slider")
+        .attr("transform", "translate("+(margins.left+margins.right)+","+0+")")
+        .call(brush);
+
+      var handle = slider.append("circle")
+        .attr("class", "handle")
+        .attr("transform", "translate("+0+","+ (height-margins.bottom)+")")
+        .attr('r', 10);
+
+      var brushedLine = svg.append("rect").attr('class', "slider")
+        .attr("transform", "translate("+(margins.left+margins.right)+","+(height-margins.bottom)+")")
+        .attr("width", 0)
+        .attr("height", 3)
+
+      // Brush event callback function:
+      function brushed () {
+        var value = brush.extent()[0];
+
+        if (d3.event.sourceEvent) {
+          value = timeline.invert(d3.mouse(this)[0]);
+          // brush.extent[0, value];
+        }
+
+        brushedLine.attr('width', timeline(value)-12);
+        handle.attr("cx", timeline(value));
+      }
+
     }
   }
 })();
