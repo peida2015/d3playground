@@ -39,6 +39,7 @@
   font-stretch: expanded;
 }
 .state { fill: white; }
+.state.joined { fill: pink; }
 .state-boundary {
   fill: none;
   stroke: #777;

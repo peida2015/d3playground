@@ -1,9 +1,14 @@
 ;(function () {
   document.onreadystatechange = function () {
     if (document.readyState === 'complete') {
-      var admDates = dates.map(function (state) {
-        return [state[0], new Date(state[1])];
+      var firstStateDate = new Date(dates[0][1]);
+      var lastStateDate = new Date(dates[49][1]);
+
+      var admDates = {};
+      dates.forEach(function (state) {
+        admDates[state[0]] = new Date(state[1]);
       })
+debugger
 console.log("loaded JS");
       var margins = { top:30, bottom: 20, left: 40, right: 40 }
       var width = 960;
@@ -18,7 +23,7 @@ console.log("loaded JS");
 
       // Create an d3.time.scale object and specify the x and y range.
       var timeline = d3.time.scale()
-        .domain([admDates[0][1],admDates[49][1]])
+        .domain([firstStateDate, lastStateDate])
         .range([0, width-margins.left-margins.right]);
 
       var xAxis = d3.svg.axis().scale(timeline).ticks(10).tickSize(3).tickPadding(8);
@@ -49,7 +54,7 @@ console.log("loaded JS");
 
       var brush = d3.svg.brush()
         .x(timeline)
-        .extent([admDates[0][1], admDates[0][1]])
+        .extent([firstStateDate, firstStateDate])
         .on("brush", brushed);
 
       var slider = svg.append("g")
@@ -159,11 +164,11 @@ console.log("loaded JS");
         .transition()
         .duration(700)
         .call(brush.event)
-        .call(brush.extent([0, admDates[0][1]]))
+        .call(brush.extent([0, firstStateDate]))
       // Transition to take handle back to origin.
         .transition().duration(1000)
         .call(brush.event)
-        .call(brush.extent([0, admDates[0][1]]))
+        .call(brush.extent([0, firstStateDate]))
 
       // Brush event callback function:
       function brushed () {
@@ -174,11 +179,18 @@ console.log("loaded JS");
         }
       // After transition, extent attempts to return to zero, not first date of state admission.  This is a hacky fix.
         if (typeof(value) === 'number'){
-          value = admDates[0][1];
+          value = firstStateDate;
         }
         brushedLine.attr('width', timeline(value)-12);
         handle.attr("cx", timeline(value));
 
+        svg.selectAll(".state").each(function (d) {
+          if (admDates[d.properties.name] < value) {
+            this.classList.add("joined");
+          } else {
+            this.classList.remove("joined");
+          }
+        })
       }
     }
   }
