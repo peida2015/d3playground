@@ -46,7 +46,7 @@
 
       var brush = d3.svg.brush()
         .x(timeline)
-        .extent([0, 0])
+        .extent([admDates[0][1], admDates[0][1]])
         .on("brush", brushed);
 
       var slider = svg.append("g")
@@ -64,15 +64,29 @@
         .attr("width", 0)
         .attr("height", 3)
 
+      slider
+      .call(brush.event)
+      .call(brush.extent([0, new Date('1850')]))
+      .transition()
+      .duration(700)
+      .call(brush.event)
+      .call(brush.extent([0, admDates[0][1]]))
+      .transition().duration(1000)
+      .call(brush.event)
+      .call(brush.extent([0, admDates[0][1]]))
+
       // Brush event callback function:
       function brushed () {
+        // debugger
         var value = brush.extent()[0];
 
         if (d3.event.sourceEvent) {
           value = timeline.invert(d3.mouse(this)[0]);
-          // brush.extent[0, value];
         }
-
+      // After transition, extent attempts to return to zero, not first date of state admission.  This is a hacky fix.
+        if (typeof(value) === 'number'){
+          value = admDates[0][1];
+        }
         brushedLine.attr('width', timeline(value)-12);
         handle.attr("cx", timeline(value));
       }
