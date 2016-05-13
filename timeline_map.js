@@ -7,7 +7,7 @@
 console.log("loaded JS");
       var margins = { top:30, bottom: 20, left: 40, right: 40 }
       var width = 960;
-      var height = 660;
+      var height = 560;
 
       var svg = d3.select('body').append("svg").attr("class", "svg")
           .attr("width", width + margins.left + margins.right)
@@ -81,7 +81,7 @@ console.log("loaded JS");
     var states = topojson.feature(us, us.objects.states);
 
     // Map Projection
-    var projection = d3.geo.albersUsa().scale(1100).translate([width/2+margins.left+margins.right, height/2]);
+    var projection = d3.geo.albersUsa().scale(1000).translate([width/2+margins.left+margins.right, height/2]);
 
     // Path generator
     var path = d3.geo.path().projection(projection);
