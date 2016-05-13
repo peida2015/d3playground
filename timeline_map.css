@@ -1,3 +1,8 @@
+.svg {
+  background-color: skyblue;
+  margin-left: auto;
+}
+
 /*---------------------Timeline CSS--------------------*/
 .year-label {
   font-size: 10px;
@@ -26,8 +31,12 @@
 }
 
 /*---------------------Map CSS--------------------*/
-
-.state { fill: pink; }
+.map-title {
+  font-size: 28px;
+  font-weight: 600;
+  font-stretch: expanded;
+}
+.state { fill: white; }
 .state-boundary {
   fill: none;
   stroke: #777;

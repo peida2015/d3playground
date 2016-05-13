@@ -7,12 +7,13 @@
 console.log("loaded JS");
       var margins = { top:30, bottom: 20, left: 40, right: 40 }
       var width = 960;
-      var height = 760;
+      var height = 660;
 
-      var svg = d3.select('body').append("svg")
+      var svg = d3.select('body').append("svg").attr("class", "svg")
           .attr("width", width + margins.left + margins.right)
           .attr("height", height + margins.top + margins.bottom);
 
+          // svg.attr(background)
 // ------------------------Draw the timeline
 
       // Create an d3.time.scale object and specify the x and y range.
@@ -68,6 +69,12 @@ console.log("loaded JS");
 
 //  ---------------Make initial map
 
+  svg.append("text").attr("class", "map-title")
+    .text("States Admission to the Union")
+    .attr("transform", function (d) {
+      return "translate("+(width/2 - this.getComputedTextLength()/2 + margins.left)+","+margins.top+")";
+    });
+
   d3.json("usa.json", function (error, us) {
     if (error) return console.error(error);
     // Convert topojson back to GeoJSON format for display
@@ -86,6 +93,13 @@ console.log("loaded JS");
       .datum(topojson.mesh(us, us.objects.states, function (a, b) {
         return a !== b;
       })).attr("d", path).attr("class", "state-boundary");
+
+    // Labeled state abbrev. in class name so they can be styled with CSS.
+    svg.selectAll('.states')
+    .data(states.features)
+    .enter().append("path")
+    .attr("class", function (d) { return "state "+d.id; })
+    .attr("d", path);
 
     // Draw coast lines by selecting the two features on the side of the boundary are the same.
     svg.append("path")
@@ -165,12 +179,6 @@ console.log("loaded JS");
         brushedLine.attr('width', timeline(value)-12);
         handle.attr("cx", timeline(value));
 
-        // Labeled state abbrev. in class name so they can be styled with CSS.
-        // svg.selectAll('.states')
-        // .data(states.features)
-        // .enter().append("path")
-        // .attr("class", function (d) { return "state "+d.id; })
-        // .attr("d", path);
       }
     }
   }
