@@ -104,6 +104,11 @@ console.log("loaded JS");
     .attr('x', 18)
     .attr('y', 33);
 
+  var stateCount = legend.append("text").attr('class', 'legend-count')
+    .text('0 states joined')
+    .attr('x', 0)
+    .attr('y', -40)
+
 
   d3.json("usa.json", function (error, us) {
     if (error) return console.error(error);
@@ -198,6 +203,7 @@ console.log("loaded JS");
       // Brush event callback function:
       function brushed () {
         var value = brush.extent()[0];
+        var numberJoined = 0;
 
         if (d3.event.sourceEvent) {
           value = timeline.invert(d3.mouse(this)[0]);
@@ -212,10 +218,13 @@ console.log("loaded JS");
         svg.selectAll(".state").each(function (d) {
           if (admDates[d.properties.name] < value) {
             this.classList.add("joined");
+            numberJoined++;
           } else {
             this.classList.remove("joined");
           }
-        })
+        });
+
+        stateCount.text(numberJoined+" states joined");
       }
     }
   }
