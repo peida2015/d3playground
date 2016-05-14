@@ -149,33 +149,6 @@ console.log("loaded JS");
     // Set point radius to 2 for smaller dot on the map for cities
     path.pointRadius(2);
 
-    // Label populated places with dots on the maps
-    // svg.append("path")
-    //   .datum(topojson.feature(us, us.objects.places))
-    //   .attr("d", path)
-    //   .attr("class", "place");
-
-    // Append lables on the populated places
-    // svg.selectAll(".place-label")
-    //   .data(topojson.feature(us, us.objects.places).features)
-    //   .enter().append("text")
-    //   .attr("class", "place-label")
-    //   .attr("transform", function (d) {
-    //   // Get it to project on the correct position on the map
-    //     return "translate(" + projection(d.geometry.coordinates)+")"
-    //   })
-    //   // adjust vertical position of the label
-    //   .attr("dy", ".35em")
-    //   // Get the name of the city and label
-    //   .text(function (d) { return d.properties.name; });
-    //
-    // // Label cities to the right of SF (-122.41 W) right-aligned
-    // svg.selectAll(".place-label")
-    //   .attr("x", function (d) {
-    //     return d.geometry.coordinates[0] > -122.41 ? 6 : -6; })
-    //   .attr("text-anchor", function (d) {
-    //     return d.geometry.coordinates[0] > -122.41 ? "start" : "end" ; });
-
     // State labels
     svg.selectAll('.state-label')
       .data(states.features).enter()
