@@ -17,7 +17,6 @@ console.log("loaded JS");
           .attr("width", width + margins.left + margins.right)
           .attr("height", height + margins.top + margins.bottom);
 
-          // svg.attr(background)
 // ------------------------Draw the timeline
 
       // Create an d3.time.scale object and specify the x and y range.
@@ -72,7 +71,7 @@ console.log("loaded JS");
         .attr("height", 3)
 
 //  ---------------Make initial map
-    // Title
+    // Map Title
   svg.append("text").attr("class", "map-title")
     .text("States Joining the Union")
     .attr("transform", function (d) {
@@ -127,7 +126,6 @@ console.log("loaded JS");
 
 
     // Draw state boundaries by selecting the two features (states) a, b on two sides of the boundary are different.
-
     svg.append("path")
       .datum(topojson.mesh(us, us.objects.states, function (a, b) {
         return a !== b;
