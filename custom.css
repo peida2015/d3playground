@@ -32,6 +32,7 @@ div.tabs-holder {
   text-indent: 6%;
 }
 .tab {
+  font-family: monospace;
   z-index: 2;
   background-color: #999;
   position: relative;
@@ -47,6 +48,7 @@ div.tabs-holder {
 }
 .tab:hover {
   background-color: white;
+  cursor: pointer;
 }
 .tab.current {
   /*z-index: 5;*/
