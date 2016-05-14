@@ -26,6 +26,9 @@
   stroke: blue;
   stroke-width: 2px;
 }
+.handle:hover {
+  cursor: grab;
+}
 .slider {
   fill: salmon;
   stroke-width:2px;
