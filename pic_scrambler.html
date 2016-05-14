@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Playground</title>
+    <link href='https://fonts.googleapis.com/css?family=Amaranth:700italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="./custom.css" />
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="./tiles.js"></script>
+    <script type="text/javascript" src="./sliced2.js"></script>
+  </head>
+  <body>
+    <!-- Chrome will not load the background-image for the purpose of checking dimension by JS this <img> is force-loading it. -->
+    <img src="http://cdn2.justdogbreeds.com/justdogbreeds-cdn/photos/plog-content/thumbs/dog-breeds/golden-retriever/large/2955-golden-retriever-75.jpg" class="hidden" alt="" />
+
+    <h2>Introduction</h2>
+    <p class="description">
+      D3.js is a data-visualization library I have recently stumbled upon.  It is open-source and does amazing interactive graphics like those you see on <a href="#">NYTimes</a> and Michael Bostock's <a href="#">showcase</a>.  This is my little D3 playground.
+    </p>
+    <h2>I. Image Scrambler</h2>
+    <p class="description">
+      This is my first project using D3.js.  It's an image sliced up into 15x15 tiles using CSS Sprite technique and made draggable using D3's drag behavior tools.  To make ordering possible for unscrambling, the tiles are joined with data that stores row and col information as well as an index as they are created.
+    </p>
+    <br>
+    <div class="container center-block">
+      <div class="image"></div>
+
+      <div class="center-aligned">
+        <button class="button" onclick="_tiles.tiles.scrambleTiles()">Scramble</button>
+        <button class="button" onclick="_tiles.tiles.unscrambleTiles()">
+          Quickly Unscramble
+        </button>
+        <button class="button" onclick="_tiles.tiles.slowlyUnscramble()">
+          Slowly Unscramble
+        </button>
+        <button class="button" onclick="_tiles.tiles.linearlyUnscramble()">
+          Unscramble Using Linear Easing
+        </button>
+        <button class="button" onclick="_tiles.tiles.slowlyUnscramble2()">
+          "Grab and Append" Unscramble
+        </button>
+      </div>
+    </div>
+    <br>
+    <h3>Animating Sort</h3>
+    <p class="description">
+      An interesting feature in this project is the fake sorting transition.  When we use sorting within d3 and re-append all the tiles, it restores the image in a blink.  But that's not so cool of an effect.  It is easy to use transition to return the tiles to rectangular shape, but not so easy to show the sorting because d3 does not have built-in transition for DOM elements being removed and appended.  To "show" this sorting, I faked it with transition().tween().
+    </p>
+    <h4>Method I - "Find Your Mate"</h4>
+    <p class="description">
+      During the transition, each tile inserts itself before a tile that's supposed to be either 4, 3, 2, or 1 ahead of itself.  An interpolation function will determines how close it is supposed to be to the tile ahead of itself at each timestep.  Towards the end of transition, it will find and insert itself just before the tile that's supposed to be right in front of itself.  One big problem I encountered was that not all the tiles had enough time to complete insertions before the next insertion is called.  That left some tiles looking unsorted at the end of the transition.  We could lengthen the whole duration so all the tiles could complete the insertions at all timesteps but not everyone has 60 seconds to see a fake transition complete for 225 tiles.  My solution is to use an easing function that goes quickly at first and trigger most of insertions that may not complete at the beginning but allow more time for the insertions to complete towards the end.  I had to experiment with a few ease functions to find out that the elastic-out is best for our purpose.  You can try out the differences above.  With this optimization, 225 tiles can fairly reliably be "sorted" within 3.5 seconds on my machine.
+    </p>
+    <h4>Method II - "Grab and Append"</h4>
+    <p class="description">
+      This method is to grab the correct elements in order and append them to the parentNode one-by-one.  At first this seems to be the better method because it is computationally less intensive with less DOM elements removed and inserted at each timestep.  However, we need at least as many timesteps as there are tiles during the transition; otherwise, some tiles will be skipped.  According to my test, 9 seconds are needed to have enough timesteps to complete the animation with the "linear" easing function.  An easy work around is to use a counter to keep track of the current node to be grabbed and appended.  Indeed, with this work around this method can reliably "sort" the 225 picture tiles in ~2.5 seconds on my machine.  The "elastic" easing function is still the best for our purpose because it allows maximum time for the tiles to complete their DOM ordering changes.
+    </p>
+    <h4>Conclusion</h4>
+    <p class="description">
+      Both methods were made to work within 5 seconds.  Which one is cooler? You decide.
+    </p>
+
+
+  </body>
+</html>
