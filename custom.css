@@ -3,8 +3,10 @@ body {
 
 h1 {
   font-family: 'Amaranth', sans-serif;
-  font-size: 4em;
+  font-size: 3.5em;
   text-align: center;
+  margin: auto;
+  margin-bottom: -30px;
 }
 
 h2, h3, h4, h5, h6 {
@@ -20,6 +22,10 @@ iframe.embedded {
   margin-right: auto;
   position: relative;
 }
+
+iframe.inactive {
+  display:none
+}
 div.tabs-holder {
   text-indent: 4.5%;
 }
@@ -29,7 +35,7 @@ div.tabs-holder {
   position: relative;
   display: inline-block;
   text-indent: 0%;
-  padding: 20px;
+  padding: 10px 20px 20px 20px;
   border: 2px solid #ccc;
   border-style: outset;
   border-radius: 15px;
