@@ -65,19 +65,19 @@
         .attr("height", 3)
 
       slider
-      .call(brush.event)
-      .call(brush.extent([0, new Date('1850')]))
-      .transition()
-      .duration(700)
-      .call(brush.event)
-      .call(brush.extent([0, admDates[0][1]]))
-      .transition().duration(1000)
-      .call(brush.event)
-      .call(brush.extent([0, admDates[0][1]]))
+        .call(brush.event)
+        .call(brush.extent([0, new Date('1850')]))
+        .transition()
+        .duration(700)
+        .call(brush.event)
+        .call(brush.extent([0, admDates[0][1]]))
+      // Transition to take handle back to origin.
+        .transition().duration(1000)
+        .call(brush.event)
+        .call(brush.extent([0, admDates[0][1]]))
 
       // Brush event callback function:
       function brushed () {
-        // debugger
         var value = brush.extent()[0];
 
         if (d3.event.sourceEvent) {
