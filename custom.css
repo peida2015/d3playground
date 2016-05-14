@@ -2,9 +2,11 @@ body {
 }
 
 h1 {
+  direction: rtl;
   font-family: 'Amaranth', sans-serif;
   font-size: 3.5em;
-  text-align: center;
+  text-align: right;
+  text-indent: 5%;
   margin: auto;
   margin-bottom: -30px;
 }
@@ -16,7 +18,7 @@ h2, h3, h4, h5, h6 {
 iframe.embedded {
   z-index: 10;
   border: 20px solid #eee;
-  border-radius: 0px;
+  border-radius: 10px;
   display:block;
   margin-left: auto;
   margin-right: auto;
@@ -27,7 +29,7 @@ iframe.inactive {
   display:none
 }
 div.tabs-holder {
-  text-indent: 4.5%;
+  text-indent: 6%;
 }
 .tab {
   z-index: 2;
