@@ -74,7 +74,7 @@ console.log("loaded JS");
 //  ---------------Make initial map
     // Title
   svg.append("text").attr("class", "map-title")
-    .text("States Admission to the Union")
+    .text("States Joining the Union")
     .attr("transform", function (d) {
       return "translate("+(width/2 - this.getComputedTextLength()/2 + margins.left)+","+margins.top+")";
     });
@@ -109,6 +109,10 @@ console.log("loaded JS");
     .attr('x', 0)
     .attr('y', -40)
 
+  var yearIndicator = legend.append("text").attr('class', 'year-indicator')
+    .text('1787')
+    .attr('x', 0)
+    .attr('y', (height/2-5));
 
   d3.json("usa.json", function (error, us) {
     if (error) return console.error(error);
@@ -198,7 +202,7 @@ console.log("loaded JS");
       // Transition to take handle back to origin.
         .transition().duration(1000)
         .call(brush.event)
-        .call(brush.extent([0, firstStateDate]))
+        .call(brush.extent([0, firstStateDate]));
 
       // Brush event callback function:
       function brushed () {
@@ -224,6 +228,7 @@ console.log("loaded JS");
           }
         });
 
+        yearIndicator.text(value.getFullYear()).attr('x', timeline(value)+20);
         stateCount.text(numberJoined+" states joined");
       }
     }

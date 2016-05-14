@@ -40,6 +40,12 @@
   font-weight: 500;
   font-family: sans-serif;
 }
+.year-indicator {
+  stroke: black;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: sans-serif;
+}
 .map-title {
   font-size: 28px;
   font-weight: 600;
