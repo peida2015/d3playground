@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      .state { fill: pink; }
+      /*.state { fill: white; }
+      .state { fill: blue; }*/
+      .state-boundary {
+        fill: none;
+        stroke: #777;
+        stroke-dasharray: 5,5;
+        stroke-linejoin: round;
+      }
+      .coast-line {
+        fill: none;
+        stroke: #777;
+        stroke-dasharray: 2,3;
+        stroke-linejoin: round;
+      }
+      .place-label {
+        font-size: 8pt;
+      }
+      .state-label {
+        fill: #777;
+        fill-opacity: .5;
+        font-size: 16px;
+        font-weight: 500;
+        text-anchor: middle;
+      }
+    </style>
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <!-- topojson.js -->
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+
+  </head>
+  <body>
+
+  </body>
+  <script type="text/javascript">
+  var width = 960, height = 1160;
+
+  var svg = d3.select("body").append("svg")
+  .attr("width", width)
+  .attr("height", height);
+
+  d3.json("usa.json", function (error, us) {
+    if (error) return console.error(error);
+    // debugger
+    // Convert topojson back to GeoJSON format for display
+    var states = topojson.feature(us, us.objects.states);
+    // Map Projection
+    var projection = d3.geo.albersUsa().scale(1100).translate([width/2, height/2]);
+
+    // Path generator
+    var path = d3.geo.path().projection(projection);
+    // Since the states are labeled below, the original shape of the country don't need to be drawn
+    // svg.append("path")
+    // .datum(states)
+    // .attr("d", path);
+
+    // Labeled state abbrev. in class name so they can be styled with CSS.
+    svg.selectAll('.subunit')
+      .data(states.features)
+      .enter().append("path")
+      .attr("class", function (d) { return "state "+d.id; })
+      .attr("d", path);
+
+    // Draw state boundaries by selecting the two features (states) a, b on two sides of the boundary are different.
+
+    svg.append("path")
+      .datum(topojson.mesh(us, us.objects.states, function (a, b) {
+        return a !== b;
+      })).attr("d", path).attr("class", "state-boundary");
+
+    // Draw coast lines by selecting the two features on the side of the boundary are the same.
+    svg.append("path")
+      .datum(topojson.mesh(us, us.objects.states, function (a, b) {
+        return a === b;
+      })).attr("d", path).attr("class", "coast-line");
+
+    // Set point radius to 2 for smaller dot on the map for cities
+    path.pointRadius(2);
+
+    // Label populated places with dots on the maps
+    svg.append("path")
+      .datum(topojson.feature(us, us.objects.places))
+      .attr("d", path)
+      .attr("class", "place");
+
+    // Append lables on the populated places
+    svg.selectAll(".place-label")
+      .data(topojson.feature(us, us.objects.places).features)
+      .enter().append("text")
+      .attr("class", "place-label")
+      .attr("transform", function (d) {
+      // Get it to project on the correct position on the map
+        return "translate(" + projection(d.geometry.coordinates)+")"
+      })
+      // adjust vertical position of the label
+      .attr("dy", ".35em")
+      // Get the name of the city and label
+      .text(function (d) { return d.properties.name; });
+
+    // Label cities to the right of SF (-122.41 W) right-aligned
+    svg.selectAll(".place-label")
+      .attr("x", function (d) {
+        return d.geometry.coordinates[0] > -122.41 ? 6 : -6; })
+      .attr("text-anchor", function (d) {
+        return d.geometry.coordinates[0] > -122.41 ? "start" : "end" ; });
+
+    svg.selectAll('.state-label')
+      .data(states.features).enter()
+      .append("text")
+      .attr("class", function (d) { return "state-label " + d.id })
+      .attr("transform", function (d) {
+        return "translate(" + path.centroid(d) + ")";
+      })
+      .attr("dy", ".35em")
+      .attr("x", 2)
+      .text(function (d) { return d.id; });
+  });
+  </script>
+</html>
