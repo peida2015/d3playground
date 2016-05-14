@@ -25,23 +25,24 @@ div.tabs-holder {
 }
 .tab {
   z-index: 2;
+  background-color: #999;
   position: relative;
   display: inline-block;
   text-indent: 0%;
   padding: 20px;
   border: 2px solid #ccc;
   border-style: outset;
-  background-color: #eee;
   border-radius: 15px;
   padding-bottom: 18px;
   margin-bottom: -15px;
-  margin-right: -10px;
+  margin-right: -5px;
 }
 .tab:hover {
   background-color: white;
 }
 .tab.current {
-  z-index: 5;
+  /*z-index: 5;*/
+  background-color: #eee;
 }
 
 p.description {
