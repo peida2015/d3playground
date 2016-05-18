@@ -13,14 +13,16 @@
         }, 250)
       };
       var toggleMenu = function (e) {
-        iframeResize(e);
+        // debugger
         if (e.target !== e.currentTarget) {
           var tabs = e.currentTarget.children;
           for (var i = 0; i < tabs.length; i++) {
             tabs[i].classList.remove("current");
           }
           e.target.classList.add('current');
+          iframeResize(e);
         }
+
       };
 
 
