@@ -25,6 +25,7 @@ iframe.embedded {
   position: relative;
 }
 
+
 iframe.inactive {
   display:none
 }
@@ -83,6 +84,17 @@ p.description {
 
 .tile.just-dropped {
   z-index: 1;
+}
+
+button {
+  /*max-width: 150px;*/
+  border-radius: 5px;
+}
+button:hover {
+  background-color: lightblue;
+}
+button.DNW:hover {
+  background-color: red;
 }
 
 /*Utilities*/
