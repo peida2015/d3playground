@@ -153,7 +153,8 @@ console.log("loaded JS");
       .append("text")
       .attr("class", function (d) { return "state-label " + d.id })
       .attr("transform", function (d) {
-        return "translate(" + path.centroid(d) + ")";
+        if (d.id === "PR") return;
+        return "translate(" + path.centroid(d).join(", ") + ")";
       })
       .attr("dy", ".35em")
       .attr("x", 2)
@@ -187,7 +188,11 @@ console.log("loaded JS");
         if (typeof(value) === 'number'){
           value = firstStateDate;
         }
-        brushedLine.attr('width', timeline(value)-12);
+
+        // Make the timeline brushedLine bar appear behind slider handle.
+        brushedLine.attr('width', function () {
+          return timeline(value) < 12 ? timeline(value) : timeline(value) - 12;
+        })
         handle.attr("cx", timeline(value));
 
         svg.selectAll(".state").each(function (d) {
