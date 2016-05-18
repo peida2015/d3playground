@@ -46,7 +46,7 @@
           this.style.top = parseInt(this.style.top)+ d3.event.dy +"px";
         }
       });
-
+      debugger
     }
   }
 })();
