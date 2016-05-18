@@ -74,7 +74,7 @@
             });
           }
           };
-      }).ease("elastic")
+      }).ease("cub-in")
       // Delay 2s to let slowlyReturnToShape() finish first
       .delay(2000)
       .duration(5000);
