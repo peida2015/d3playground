@@ -4,7 +4,7 @@ body {
 h1 {
   direction: rtl;
   font-family: 'Amaranth', sans-serif;
-  font-size: 3.5em;
+  font-size: 3em;
   text-align: right;
   text-indent: 5%;
   margin: auto;
@@ -30,20 +30,21 @@ iframe.inactive {
   display:none
 }
 div.tabs-holder {
-  text-indent: 6%;
+  margin-left: 3%;
 }
 .tab {
   font-family: monospace;
+  font-size: 18px;
   z-index: 2;
   background-color: #999;
   position: relative;
   display: inline-block;
   text-indent: 0%;
-  padding: 10px 20px 20px 20px;
+  padding: 20px 20px 20px 20px;
   border: 2px solid #ccc;
   border-style: outset;
   border-radius: 15px;
-  padding-bottom: 18px;
+  margin-top: -20px;
   margin-bottom: -15px;
   margin-right: -5px;
 }
