@@ -25,7 +25,6 @@ iframe.embedded {
   position: relative;
 }
 
-
 iframe.inactive {
   display:none
 }
@@ -57,11 +56,19 @@ div.tabs-holder {
   background-color: #eee;
 }
 
-p.description {
+.description {
   width: 80%;
   margin: auto;
 }
-
+.code {
+  position: relative;
+  width: 70%;
+  background-color: lightgray;
+  border:1px solid black;
+  margin: auto;
+  padding: 10px;
+  font-family: sans-serif;
+}
 .image {
   margin: auto;
 }
