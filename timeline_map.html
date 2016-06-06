@@ -20,15 +20,16 @@
     <p class="description">
       Making the US map requires conversion of SHP (shape) file into GeoJSON file as directed in the tutorial using the ogr2ogr CLI tool. The source SHP files came from the <a href="https://www.census.gov/geo/maps-data/data/tiger-line.html">US Census Bureau TIGER project</a>.  The format of GeoJSON looks like this:
     </p>
-    <p class="code">
+    <br>
+    <pre class="code">
       { "type": "FeatureCollection",
-        "features": [{
-          "type": "Feature",
-          "geometry": { "type": "Point", "coordinates": [102.0, 0.5] },
-          "properties": { "name": ":StateName" }
-        }]
-      }
-    </p>
+          "features": [{
+              "type": "Feature",
+              "geometry": { "type": "Point", "coordinates": [:x, :y] },
+              "properties": { "name": ":StateName" }
+          }]
+      } </pre>
+    <br>
     <p class="description">
       The timeline requires a list of name and date of admission of each state.  It is formatted as a JSON object with state name as the property and admission date as the value.
     </p>
@@ -36,7 +37,9 @@
     <h3>The Map</h3>
     <p class="description">
       Making a map takes a following steps:
-      <ol>
+    </p>
+    <p>
+      <ol class="description">
         <li>Choose a map projection and scaling factor for the path using D3.geo</li>
         <li>Create a path generator using D3.geo.path for the chosen projection</li>
         <li>Create a D3 selection for all the states ("features" in GeoJSON) </li>
@@ -44,6 +47,20 @@
         <li>Label and style the places, legends, titles, etc.</li>
       </ol>
     </p>
-    
+    <br>
+    <h3>The Timeline</h3>
+    <p class="description">
+      The timeline has these three components working together:
+    </p>
+    <p>
+      <ul class="description">
+        <li>The D3 time scale object, which is an extension of the D3 scale</li>
+        <li>The brush listener and handle that turn the axis into a slider to allow interactions</li>
+        <li>The actual drawing and labeling of axis with D3 SVG axis component</li>
+      </ul>
+    </p>
+    <p class="description">
+      One tricky part about working with D3 time scale object was that it returns the default 0 instead of a Date object after the initial transition.  It becomes a problem when the D3 time scale object tries to interpolate a Date object back to a position (integer). Since this is a singular problem, I simply set value to the Date when Delaware became the first state if value type is a number.
+    </p>
   </body>
 </html>
