@@ -192,7 +192,7 @@
 
         // Make the timeline brushedLine bar appear behind slider handle.
         brushedLine.attr('width', function () {
-          return timeline(value) < 12 ? timeline(value) : timeline(value) - 12;
+          return timeline(value) < 12 ? 0 : timeline(value) - 12;
         })
         handle.attr("cx", timeline(value));
 
