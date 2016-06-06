@@ -1,4 +1,5 @@
-;(function () {
+"use strict";
+(function () {
   document.onreadystatechange = function () {
     if (document.readyState === 'complete') {
       var firstStateDate = new Date(dates[0][1]);
@@ -8,12 +9,12 @@
       dates.forEach(function (state) {
         admDates[state[0]] = new Date(state[1]);
       })
-console.log("loaded JS");
+
       var margins = { top:30, bottom: 20, left: 40, right: 40 }
       var width = 960;
       var height = 560;
 
-      var svg = d3.select('body').append("svg").attr("class", "svg")
+      var svg = d3.select('body').insert("svg", ":first-child").attr("class", "svg")
           .attr("width", width + margins.left + margins.right)
           .attr("height", height + margins.top + margins.bottom);
 
