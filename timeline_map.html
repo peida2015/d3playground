@@ -16,9 +16,21 @@
       In this project, I decided to play with map-drawing and basic axis-drawing in D3.  The result of this combination that is natural to me is a timeline and a map together showing progression of historical events such as States joining the Union. It is the result of heavily adapting codes from two excellent D3 tutorials: <a href="https://bost.ocks.org/mike/map/">Let's Make a Map</a> and <a href="https://bl.ocks.org/mbostock/6452972">Brush as a Slider</a>
     </p>
     <br>
-    <h3>The Map</h3>
+    <h3>The Data</h3>
     <p class="description">
-      In this project, I decided to play with map-drawing and basic axis-drawing in D3.  The result of this combination that is natural to me is a timeline and a map together showing progression of historical events such as States joining the Union. It is the result of heavily adapting codes from two excellent D3 tutorials: <a href="https://bost.ocks.org/mike/map/">Let's Make a Map</a> and <a href="https://bl.ocks.org/mbostock/6452972">Brush as a Slider</a>
+      Making the US map requires conversion of SHP (shape) file into GeoJSON file as directed in the tutorial using the ogr2ogr CLI tool. The source SHP files came from the <a href="https://www.census.gov/geo/maps-data/data/tiger-line.html">US Census Bureau TIGER project</a>.  The format of GeoJSON looks like this:
+    </p>
+    <p class="code">
+      { "type": "FeatureCollection",
+        "features": [{
+          "type": "Feature",
+          "geometry": { "type": "Point", "coordinates": [102.0, 0.5] },
+          "properties": { "name": ":StateName" }
+        }]
+      }
+    </p>
+    <p class="description">
+      The timeline requires a list of name and date of admission of each state.  It is formatted as a JSON object with state name as the property and admission date as the value.
     </p>
   </body>
 </html>
