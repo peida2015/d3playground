@@ -32,5 +32,18 @@
     <p class="description">
       The timeline requires a list of name and date of admission of each state.  It is formatted as a JSON object with state name as the property and admission date as the value.
     </p>
+    <br>
+    <h3>The Map</h3>
+    <p class="description">
+      Making a map takes a following steps:
+      <ol>
+        <li>Choose a map projection and scaling factor for the path using D3.geo</li>
+        <li>Create a path generator using D3.geo.path for the chosen projection</li>
+        <li>Create a D3 selection for all the states ("features" in GeoJSON) </li>
+        <li>Draw the projected path with the path generator and append on an existing SVG group for the map.</li>
+        <li>Label and style the places, legends, titles, etc.</li>
+      </ol>
+    </p>
+    
   </body>
 </html>
