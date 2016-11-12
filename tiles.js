@@ -1,21 +1,23 @@
-; (function () {
+"use strict";
+(function () {
   if (window._tiles === undefined) {
     window._tiles = {};
   }
 
-  var tiles = _tiles.Tiles = function (tiles) {
+  var tiles = _tiles.Tiles = function (tiles, tileWidth, tileHeight) {
     this.tiles = tiles;
+    this.tileWidth = tileWidth;
+    this.tileHeight = tileHeight;
   }
 
   tiles.prototype = {
     scrambleTiles: function () {
       d3.shuffle(this.tiles[0]);
 
-      this.tiles.each(function () {
-        var tile = this;
-        d3.select(".image").append(function () {
-          return tile;
-        });
+      var that = this;
+      this.tiles.each(function (item, idx) {
+        this.style.top = (Math.floor(idx/15)-item.row)*(that.tileHeight+1)+"px";
+        this.style.left = (idx%15-item.col)*(that.tileWidth+1)+"px";
       });
     },
 
