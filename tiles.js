@@ -17,7 +17,7 @@
         top: (Math.floor(idx/15)-tile.row)*(that.tileHeight+1)+"px",
         left: (idx%15-tile.col)*(that.tileWidth+1)+"px"
       })
-      .duration(2000);
+      .duration(50);
     };
 
     // public but not in prototype
@@ -44,9 +44,10 @@
       // left is the current index of pivot, which should tightly follow left.
       var pivotId = pivot.datum().id;
 
-      while (right > left) { /* stops when right === left */
+      var partition = function () {
         var nextTile = that.tiles[0][left+1];
         var leftId = nextTile.__data__.id;
+
         if (leftId < pivotId) {
           var a = pivot.node();
           var b = nextTile;
@@ -75,21 +76,26 @@
           that.tiles[0][left+1] = temp;
 
           if (right > left) { right--; };
+        };
 
+        if (right <= left) {
+          clearInterval(loop);
+          recursiveCall();
         };
       };
 
-      setTimeout(function () {
-        that.slowlyUnscramble(left+1, endIdx);
+      var loop = setInterval(partition, 50);
+
+      // recursiveCall on the left portion and then the right portion.
+      var recursiveCall = function () {
         setTimeout(function () {
+          that.slowlyUnscramble(left+1, endIdx);
           that.slowlyUnscramble(stIdx, left-1);
           setTimeout(function () {
             pivot.classed('pivot', false);
-          }, 300);
-        }, 300);
-      }, 300);
-
-
+          }, 0);
+        }, 0);
+      };
 
     };
   };
