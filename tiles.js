@@ -17,7 +17,7 @@
         top: (Math.floor(idx/15)-tile.row)*(that.tileHeight+1)+"px",
         left: (idx%15-tile.col)*(that.tileWidth+1)+"px"
       })
-      .duration(50);
+      .duration(0);
     };
 
     // public but not in prototype
@@ -28,7 +28,7 @@
       this.tiles.each(moveToSpot);
     };
 
-    this.slowlyUnscramble = function (left, right) {
+    this.quickSortUnscramble = function (left, right) {
       if (left === undefined) { var left = 0; }
       if (right === undefined) { var right = this.tiles[0].length-1; }
       if (right - left <= 0) { return; }
@@ -48,49 +48,43 @@
         var nextTile = that.tiles[0][left+1];
         var leftId = nextTile.__data__.id;
 
-        if (leftId < pivotId) {
-          var a = pivot.node();
-          var b = nextTile;
+        var swap = function (leftIdx, rightIdx){
+          var a = that.tiles[0][leftIdx];
+          var b = that.tiles[0][rightIdx];
 
           // swap the displayed position by changing top and left values in style properties
-          moveToSpot.call(b, b.__data__, left);
-          moveToSpot.call(a, a.__data__, left+1);
+          moveToSpot.call(b, b.__data__, leftIdx);
+          moveToSpot.call(a, a.__data__, rightIdx);
 
-          // concurrent swap within d3 array of nodes
-          that.tiles[0][left] = that.tiles[0][left+1];
-          that.tiles[0][left+1] = pivot.node();
+          // swap within d3 array of nodes
+          that.tiles[0][leftIdx] = b;
+          that.tiles[0][rightIdx] = a;
+        };
+
+        if (leftId < pivotId) {
+          swap(left, left+1);
 
           left++;
-
         } else {
-          var a = nextTile;
-          var b = that.tiles[0][right];
-
-          // swap the displayed position by changing top and left values in style properties
-          moveToSpot.call(b, b.__data__, left+1);
-          moveToSpot.call(a, a.__data__, right);
-
-          // concurrent swap within d3 array of nodes
-          var temp = that.tiles[0][right];
-          that.tiles[0][right] = that.tiles[0][left+1];
-          that.tiles[0][left+1] = temp;
+          swap(left+1, right);
 
           if (right > left) { right--; };
         };
 
         if (right <= left) {
           clearInterval(loop);
+          // recursiveCall only after the last swap of the partition function has finished.
           recursiveCall();
         };
       };
 
-      var loop = setInterval(partition, 50);
+      var loop = setInterval(partition, 0);
 
       // recursiveCall on the left portion and then the right portion.
       var recursiveCall = function () {
         setTimeout(function () {
-          that.slowlyUnscramble(left+1, endIdx);
-          that.slowlyUnscramble(stIdx, left-1);
+          that.quickSortUnscramble(left+1, endIdx);
+          that.quickSortUnscramble(stIdx, left-1);
           setTimeout(function () {
             pivot.classed('pivot', false);
           }, 0);
@@ -111,7 +105,6 @@
       })
       this.slowlyReturnToShape();
     },
-
 
     slowlyUnscramble2: function () {
       // Implementation of the "Grab and Append" method
