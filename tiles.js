@@ -50,6 +50,14 @@
       // use the first tile as the pivot and assign it ".pivot"
       var pivot = d3.select(that.tiles[0][left]);
       pivot.classed("pivot", true);
+      pivot.style({
+        width: function () {
+          return this.style.width = this.clientWidth-11+"px";
+        },
+        height: function () {
+          return this.style.height = this.clientHeight-11+"px";
+        }
+      });
 
       // left is the current index of pivot, which should tightly follow left.
       var pivotId = pivot.datum().id;
@@ -97,6 +105,14 @@
           that.quickSortUnscramble(stIdx, left-1, moveDuration);
           setTimeout(function () {
             pivot.classed('pivot', false);
+            pivot.style({
+              width: function () {
+                return this.style.width = this.clientWidth+11+"px";
+              },
+              height: function () {
+                return this.style.height = this.clientHeight+11+"px";
+              }
+            });
           }, 0);
         }, 0);
       };

@@ -88,7 +88,14 @@ div.tabs-holder {
 }
 
 .pivot {
-  border: 3px solid blue;
+  border: 6px solid yellow;
+}
+
+.pivot-demo {
+  width: 60px;
+  height: 29px;
+  transform: translateY(50%);
+  margin-left: 60px;
 }
 
 .tile.dragging {
@@ -99,13 +106,41 @@ div.tabs-holder {
   z-index: 1;
 }
 
-button {
-  /*max-width: 150px;*/
+.clickable {
+  width: 120px;
+  height: 40px;
+  margin: 15px;
   border-radius: 5px;
+  border: 1px solid black;
+  display: inline-block;
+  vertical-align: top;
+  top:50%;
+  background-opacity;
+  position: relative;
 }
-button:hover {
+
+div.opaq {
+  width: 100%;
+  height: 100%;
   background-color: lightblue;
+  opacity: 0.2;
 }
+
+div.button-title {
+  font-size: 11px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+
+}
+
+div.clickable:hover {
+  background-color: lightblue;
+  cursor: pointer;
+}
+
 button.DNW:hover {
   background-color: red;
 }

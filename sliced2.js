@@ -13,16 +13,19 @@
       var tileWidth = Math.floor(width/15);
       var tileHeight = Math.floor(height/15);
 
-      d3.select(".image").style({width: 15+width+"px"});
+      d3.select(".image").style({width: 15+width+"px", height : 15+height+"px"});
 
       var tiles = d3.select(".image").selectAll(".tile")
         .data(d3.range(225).map(function (d) {
           return { row: Math.floor(d/15), col: d%15, id: d }; }))
         .enter().append("div").classed("tile", true)
-        .style({ height: tileHeight+"px", width: tileWidth+"px",
+        .style({
+            height: tileHeight+"px",
+            width: tileWidth+"px",
             backgroundPosition: function (d) {
               return this.style.backgroundPosition = -d.col*tileWidth+"px "+-d.row*tileHeight+"px";
-          }});
+            }
+          });
 
 
       var drag = d3.behavior.drag();
@@ -64,12 +67,12 @@
         that.classList.add("just-dropped");
       });
 
-      tiles = new _tiles.Tiles(tiles);
+      tiles = new _tiles.Tiles(tiles, tileWidth, tileHeight);
 
       _tiles.tiles = tiles;
       tiles.scrambleTiles();
       // tiles.unscrambleTiles();
-      tiles.slowlyUnscramble2();
+      // tiles.slowlyUnscramble2();
     }
   }
 
