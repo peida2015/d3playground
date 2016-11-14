@@ -279,7 +279,7 @@
     initiateQuicksort: function (moveDuration) {
       if (this.displayMode === 2) {
         this.DOMOrderToTopLeft();
-        that.quickSortUnscramble(undefined, undefined, moveDuration);
+        this.quickSortUnscramble(undefined, undefined, moveDuration);
       } else {
         this.quickSortUnscramble(undefined, undefined, moveDuration);
       };
