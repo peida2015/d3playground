@@ -12,12 +12,14 @@
     var that = this;
 
     // private
-    var moveToSpot = function (tile, idx) {
+    var moveToSpot = function (tile, idx, moveDuration) {
+      if (moveDuration === undefined) { moveDuration = 0; }
       d3.select(this)
       .transition().style({
         top: (Math.floor(idx/15)-tile.row)*(that.tileHeight+1)+"px",
         left: (idx%15-tile.col)*(that.tileWidth+1)+"px"
-      });
+      })
+      .duration(moveDuration);
     };
 
     // public but not in prototype
@@ -35,7 +37,8 @@
       };
     };
 
-    this.quickSortUnscramble = function (left, right) {
+    this.quickSortUnscramble = function (left, right, moveDuration) {
+      if (moveDuration === undefined) { moveDuration = 0; }
       if (left === undefined) { var left = 0; }
       if (right === undefined) { var right = this.tiles[0].length-1; }
       if (right - left <= 0) { return; }
@@ -60,8 +63,8 @@
           var b = that.tiles[0][rightIdx];
 
           // swap the displayed position by changing top and left values in style properties
-          moveToSpot.call(b, b.__data__, leftIdx);
-          moveToSpot.call(a, a.__data__, rightIdx);
+          moveToSpot.call(b, b.__data__, leftIdx, moveDuration);
+          moveToSpot.call(a, a.__data__, rightIdx, moveDuration);
 
           // swap within d3 array of nodes
           that.tiles[0][leftIdx] = b;
@@ -85,13 +88,13 @@
         };
       };
 
-      var loop = setInterval(partition, 0);
+      var loop = setInterval(partition, moveDuration);
 
       // recursiveCall on the left portion and then the right portion.
       var recursiveCall = function () {
         setTimeout(function () {
-          that.quickSortUnscramble(left+1, endIdx);
-          that.quickSortUnscramble(stIdx, left-1);
+          that.quickSortUnscramble(left+1, endIdx, moveDuration);
+          that.quickSortUnscramble(stIdx, left-1, moveDuration);
           setTimeout(function () {
             pivot.classed('pivot', false);
           }, 0);
@@ -122,7 +125,6 @@
     this.TopLeftToDOMOrder = function () {
       this.tiles.remove();
       this.tiles.each(function (tile,idx){
-        // debugger
         var that = this;
         return d3.select('.image').append(function () {
           return that;
@@ -258,14 +260,14 @@
       this.tiles.style({ border: "0px" });
     },
 
-    initiateQuicksort: function () {
-      var that = this;
+    initiateQuicksort: function (moveDuration) {
       if (this.displayMode === 2) {
         this.DOMOrderToTopLeft();
-        that.quickSortUnscramble();
+        that.quickSortUnscramble(undefined, undefined, moveDuration);
       } else {
-        this.quickSortUnscramble();
+        this.quickSortUnscramble(undefined, undefined, moveDuration);
       };
     }
+
   }
 })();

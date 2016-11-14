@@ -16,19 +16,41 @@
       <div class="image"></div>
 
       <div class="center-aligned">
-        <button class="button" onclick="_tiles.tiles.scrambleTiles()">Scramble</button>
-        <button class="button" onclick="_tiles.tiles.unscrambleTiles()">
-          Quickly Unscramble
-        </button>
-        <button class="button" onclick="_tiles.tiles.slowlyUnscramble()">
-          "Find Your Mate" Unscramble
-        </button>
-        <button class="button" onclick="_tiles.tiles.slowlyUnscramble2()">
-          "Grab and Append" Unscramble
-        </button>
+        <div class="clickable" onclick="_tiles.tiles.scrambleTiles()">
+          <div class="opaq">
+          </div>
+          <div class="button-title">Scramble</div>
+        </div>
+        <div class="clickable" onclick="_tiles.tiles.unscrambleTiles()">
+          <div class="opaq">
+          </div>
+          <div class="button-title">Quickly</div>
+        </div>
+        <div class="clickable" onclick="_tiles.tiles.slowlyUnscramble()">
+          <div class="opaq">
+          </div>
+          <div class="button-title">"Find Your Mate"</div>
+        </div>
+        <div class="clickable" onclick="_tiles.tiles.slowlyUnscramble2()">
+          <div class="opaq">
+          </div>
+          <div class="button-title">"Grab and Append"</div>
+        </div>
+        <div class="clickable" onclick="_tiles.tiles.initiateQuicksort()">
+          <div class="opaq">
+          </div>
+          <div class="button-title">"Quick Sort"</div>
+        </div>
+        <div class="clickable" onclick="_tiles.tiles.initiateQuicksort(200)">
+          <div class="opaq">
+          </div>
+          <div class="button-title">"Quick Sort" Animated</div>
+        </div>
       </div>
       <button class="DNW center-block" onclick="_tiles.tiles.linearlyUnscramble()">
-        Linear Easing Unscramble
+        <div class="opaq">
+        </div>
+        Linear Easing Unscramble [NOT WORKING]
       </button>
       <span class="center-aligned">[FOR COMPARISON ONLY]</span>
     </div>
