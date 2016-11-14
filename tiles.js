@@ -106,6 +106,30 @@
       this.slowlyReturnToShape();
     },
 
+    slowlyUnscramble: function () {
+         var collection = this.tiles;
+
+         // Return to rectangular shape first (2s)
+         this.slowlyReturnToShape();
+
+         // Delay 2s to let slowlyReturnToShape() finish first
+         collection.transition().tween("sort", function (d,i) {
+           var itpl = d3.interpolateRound(d.id-5, d.id);
+           return function (t) {
+             if (d.id === i) { return; }
+
+             this.parentNode.insertBefore(this, collection.filter(function (datum2, i) {
+               var val = itpl(t);
+
+               if (val === d.id) { d.inOrder = true; }
+               return datum2.id === val+1;
+             }).node());
+           }
+         }).ease("elastic")
+         .delay(2000)
+         .duration(3500);
+    },
+
     slowlyUnscramble2: function () {
       // Implementation of the "Grab and Append" method
       var collection = this.tiles;
