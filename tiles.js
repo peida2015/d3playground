@@ -8,6 +8,7 @@
     this.tiles = tiles;
     this.tileWidth = tileWidth;
     this.tileHeight = tileHeight;
+    this.displayMode = 1; /* 1 for TopLeft; 2 for DOMOrder */
     var that = this;
 
     // private
@@ -16,16 +17,22 @@
       .transition().style({
         top: (Math.floor(idx/15)-tile.row)*(that.tileHeight+1)+"px",
         left: (idx%15-tile.col)*(that.tileWidth+1)+"px"
-      })
-      .duration(0);
+      });
     };
 
     // public but not in prototype
     this.scrambleTiles = function () {
       d3.shuffle(this.tiles[0]);
-
-      var that = this;
-      this.tiles.each(moveToSpot);
+      if (this.displayMode === 1) {
+        this.tiles.each(moveToSpot);
+      } else {
+        this.tiles.each(function () {
+          var tile = this;
+          d3.select(".image").append(function () {
+            return tile;
+          });
+        });
+      };
     };
 
     this.quickSortUnscramble = function (left, right) {
@@ -92,50 +99,99 @@
       };
 
     };
+
+    this.DOMOrderToTopLeft = function () {
+      // move tiles to the right spots before removal to preserve the current position
+      this.tiles.each(moveToSpot);
+
+      // Remove tiles in DOM and append ordered tiles
+      this.tiles.remove();
+      var sorted = this.tiles[0].slice(0).sort(function (a,b) {
+        return a.__data__.id - b.__data__.id;
+      });
+
+      sorted.forEach(function (tile, idx) {
+        return d3.select('.image').append(function () {
+          return tile;
+        });
+      });
+
+      this.displayMode = 1;
+    };
+
+    this.TopLeftToDOMOrder = function () {
+      this.tiles.remove();
+      this.tiles.each(function (tile,idx){
+        // debugger
+        var that = this;
+        return d3.select('.image').append(function () {
+          return that;
+        });
+      });
+      this.zeroTopLeft();
+
+      this.displayMode = 2;
+    };
+
+    this.unscrambleTiles = function () {
+      // Sort d3 array;
+      var sorted = this.tiles[0].sort(function (a, b) {
+        return a.__data__.id - b.__data__.id;
+      });
+
+      if (this.displayMode === 1) {
+        this.tiles.each(moveToSpot);
+      } else {
+        // Put tiles in DOM in order
+        sorted.forEach(function (el) {
+          return d3.select(".image").append(function () {
+            return el;
+          });
+        });
+        this.zeroTopLeft(); /* zero top and left values */
+      }
+    };
   };
 
   tiles.prototype = {
-    unscrambleTiles: function () {
-      this.tiles[0].sort(function (a,b) {
-        return a.__data__.id - b.__data__.id
-      }).forEach(function (el) {
-        return d3.select(".image").append(function () {
-          return el;
-        });
-      })
-      this.slowlyReturnToShape();
-    },
 
     slowlyUnscramble: function () {
-         var collection = this.tiles;
+        if (this.displayMode === 1) {
+          this.TopLeftToDOMOrder();
+        };
 
-         // Return to rectangular shape first (2s)
-         this.slowlyReturnToShape();
+        var collection = this.tiles;
 
-         // Delay 2s to let slowlyReturnToShape() finish first
-         collection.transition().tween("sort", function (d,i) {
-           var itpl = d3.interpolateRound(d.id-5, d.id);
-           return function (t) {
-             if (d.id === i) { return; }
+        // Return to rectangular shape first (2s)
+        this.slowlyZeroTopLeft();
 
-             this.parentNode.insertBefore(this, collection.filter(function (datum2, i) {
-               var val = itpl(t);
+        // Delay 2s to let slowlyZeroTopLeft() finish first
+        collection.transition().tween("sort", function (d,i) {
+         var itpl = d3.interpolateRound(d.id-5, d.id);
+         return function (t) {
+           if (d.id === i) { return; }
 
-               if (val === d.id) { d.inOrder = true; }
-               return datum2.id === val+1;
-             }).node());
-           }
-         }).ease("elastic")
-         .delay(2000)
-         .duration(3500);
+           this.parentNode.insertBefore(this, collection.filter(function (datum2, i) {
+             var val = itpl(t);
+
+             if (val === d.id) { d.inOrder = true; }
+             return datum2.id === val+1;
+           }).node());
+         }
+        }).ease("elastic")
+        .delay(2000)
+        .duration(3500);
     },
 
     slowlyUnscramble2: function () {
+      if (this.displayMode === 1) {
+        this.TopLeftToDOMOrder();
+      };
       // Implementation of the "Grab and Append" method
       var collection = this.tiles;
 
       // Return to rectangular shape first (2s)
-      this.slowlyReturnToShape();
+      this.slowlyZeroTopLeft();
 
       var counter = 0;
       collection.transition().tween("sort", function (d,i) {
@@ -151,17 +207,20 @@
           }
           };
       }).ease("cub-in")
-      // Delay 2s to let slowlyReturnToShape() finish first
+      // Delay 2s to let slowlyZeroTopLeft() finish first
       .delay(2000)
       .duration(5000);
     },
 
     linearlyUnscramble: function () {
+      if (this.displayMode === 1) {
+        this.TopLeftToDOMOrder();
+      };
       // This doesn't work, just here to show the difference.
       var collection = this.tiles;
 
       // Return to rectangular shape first (2s)
-      this.slowlyReturnToShape();
+      this.slowlyZeroTopLeft();
 
       collection.transition().tween("sort", function (d,i) {
         var itpl = d3.interpolateRound(d.id-5, d.id);
@@ -176,13 +235,13 @@
           }).node());
         }
       }).ease("linear")
-      // Delay 2s to let slowlyReturnToShape() finish first
+      // Delay 2s to let slowlyZeroTopLeft() finish first
       .delay(2000)
       .duration(5000);
     },
 
-    slowlyReturnToShape: function () {
-      // if it takes 20s to slowlyUnscramble, slowlyReturnToShape needs a 20s delay
+    slowlyZeroTopLeft: function () {
+      // if it takes 20s to slowlyUnscramble, slowlyZeroTopLeft needs a 20s delay
       this.tiles.transition().style({
               top: 0+"px",
               left: 0+"px"
@@ -191,12 +250,22 @@
       // .delay(20000);
     },
 
-    returnToShape: function () {
+    zeroTopLeft: function () {
       this.tiles.style({ top: "", left: ""});
     },
 
     removeBorder: function () {
       this.tiles.style({ border: "0px" });
+    },
+
+    initiateQuicksort: function () {
+      var that = this;
+      if (this.displayMode === 2) {
+        this.DOMOrderToTopLeft();
+        that.quickSortUnscramble();
+      } else {
+        this.quickSortUnscramble();
+      };
     }
   }
 })();
