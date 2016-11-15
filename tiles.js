@@ -283,6 +283,33 @@
       } else {
         this.quickSortUnscramble(undefined, undefined, moveDuration);
       };
+    },
+
+    handleUpload: function (evt) {
+      evt.preventDefault();
+
+      // File type check
+      var file = evt.target.files[0];
+      var imageType = /^image\//;
+      if (!imageType.test(file.type)) {
+        var errMsg = d3.select('.uploaded').append('div').text("File selected is not an image.").style('color', 'red');
+        setTimeout(function (){
+          errMsg.remove();
+        }, 4000);
+        return;
+      }
+
+      var img = d3.select('.uploaded').append('img');
+
+      var reader = new FileReader();
+      reader.onload = (function (imgSelect) {
+        return function (e) {
+          return imgSelect.attr('src', e.target.result);
+        };
+      })(img);
+
+      reader.readAsDataURL(file);
+
     }
 
   }
