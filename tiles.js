@@ -299,17 +299,59 @@
         return;
       }
 
-      var img = d3.select('.uploaded').append('img');
+      this.sliceUpImage(file);
+      // var img = d3.select('.uploaded').append('img');
+      //
+      // var reader = new FileReader();
+      // reader.onload = (function (imgSelect) {
+      //   return function (e) {
+      //     return imgSelect.attr('src', e.target.result);
+      //   };
+      // })(img);
+      //
+      // reader.readAsDataURL(file);
 
-      var reader = new FileReader();
-      reader.onload = (function (imgSelect) {
-        return function (e) {
-          return imgSelect.attr('src', e.target.result);
-        };
-      })(img);
+    },
 
-      reader.readAsDataURL(file);
+    sliceUpImage: function (imgFile) {
+      //Slice up image store tiles in this.tiles;
+      // var reader = new FileReader();
+      var that = this;
+      var url = URL.createObjectURL(imgFile);
 
+      var img = new Image();
+      img.src = url;
+
+
+      // (function (tiles) {
+      img.onload = function (evt) {
+
+        that.tileWidth = Math.floor(img.width/15);
+        that.tileHeight = Math.floor(img.height/15);
+
+        d3.select(".image").style({
+          width: 15+img.width+"px",
+          height : 15+img.height+"px"
+        });
+
+        that.tiles.style({
+          'background-image': 'url('+url+')',
+          backgroundSize: img.width+"px",
+          height: that.tileHeight+"px",
+          width: that.tileWidth+"px",
+          backgroundPosition: function (d) {
+            return this.style.backgroundPosition = -d.col*that.tileWidth+"px "+-d.row*that.tileHeight+"px";
+          }
+        });
+      };
+        // return function (evt) {
+        //   var imgUrl = evt.target.result;
+        //
+        //   var that = this;
+        //   return
+        // };
+      // })(this.tiles);
+      // reader.readAsDataURL(imgFile);
     }
 
   }
