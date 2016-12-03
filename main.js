@@ -6,14 +6,12 @@
 
         frame.src = e === null ? './pic_scrambler.html' : e.target.dataset.url;
 
-        setTimeout(function () {
-          if (frame.contentDocument.readyState ==='complete') {
-            frame.contentDocument.body.scrollHeight < 480 ? frame.height = 510 : frame.height = frame.contentDocument.body.scrollHeight+30;
-          }
-        }, 250)
+        frame.onload = function () {
+            frame.contentDocument.body.clientHeight < 480 ? frame.height = 510 : frame.height = frame.contentDocument.body.clientHeight+40;
+        }
       };
+
       var toggleMenu = function (e) {
-        // debugger
         if (e.target !== e.currentTarget) {
           var tabs = e.currentTarget.children;
           for (var i = 0; i < tabs.length; i++) {
@@ -25,9 +23,9 @@
 
       };
 
-
       var tabs = document.querySelector('.tabs-holder')
       tabs.addEventListener('click', toggleMenu, true);
+      // initial resizing
       iframeResize();
     }
   }
