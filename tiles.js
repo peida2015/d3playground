@@ -300,30 +300,16 @@
       }
 
       this.sliceUpImage(file);
-      // var img = d3.select('.uploaded').append('img');
-      //
-      // var reader = new FileReader();
-      // reader.onload = (function (imgSelect) {
-      //   return function (e) {
-      //     return imgSelect.attr('src', e.target.result);
-      //   };
-      // })(img);
-      //
-      // reader.readAsDataURL(file);
-
     },
 
     sliceUpImage: function (imgFile) {
       //Slice up image store tiles in this.tiles;
-      // var reader = new FileReader();
       var that = this;
-      var url = URL.createObjectURL(imgFile);
+      var url = typeof imgFile === String ? imgFile : URL.createObjectURL(imgFile);
 
       var img = new Image();
       img.src = url;
 
-
-      // (function (tiles) {
       img.onload = function (evt) {
 
         that.tileWidth = Math.floor(img.width/15);
@@ -344,14 +330,6 @@
           }
         });
       };
-        // return function (evt) {
-        //   var imgUrl = evt.target.result;
-        //
-        //   var that = this;
-        //   return
-        // };
-      // })(this.tiles);
-      // reader.readAsDataURL(imgFile);
     }
 
   }
